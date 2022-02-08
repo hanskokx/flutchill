@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -63,17 +64,15 @@ class DrawerContents extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text('Settings'),
+            title: const Text('My Shows'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Beamer.of(context).beamToNamed('/shows');
             },
           ),
           ListTile(
-            title: const Text('Item 2'),
+            title: const Text('Settings'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Beamer.of(context).beamToNamed('/settings');
             },
           ),
         ],
