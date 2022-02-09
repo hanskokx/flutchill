@@ -5,18 +5,14 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    AppBloc(
+    const AppBloc(
       child: FlutChill(),
     ),
   );
 }
 
 class FlutChill extends StatelessWidget {
-  FlutChill({Key? key}) : super(key: key);
-
-  final routerDelegate = BeamerDelegate(
-    locationBuilder: routes,
-  );
+  const FlutChill({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

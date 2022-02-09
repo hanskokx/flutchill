@@ -1,30 +1,35 @@
 import 'package:beamer/beamer.dart';
-import 'package:flutchill/classes/setting.dart';
-import 'package:flutchill/screens/home.dart';
-import 'package:flutchill/screens/setting_details.dart';
 import 'package:flutchill/screens/settings.dart';
 import 'package:flutchill/screens/shows.dart';
+import 'package:flutchill/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
-RoutesLocationBuilder routes = RoutesLocationBuilder(
-  routes: {
-    // Return either Widgets or BeamPages if more customization is needed
-    '/': (context, state, data) => const HomeScreen(),
-    '/shows': (context, state, data) => const ShowsScreen(),
-    '/settings': (context, state, data) => const SettingsScreen(),
-    '/settings/:setting': (context, state, data) {
-      // Take the path parameter of interest from BeamState
-      final settingId = state.pathParameters['settingId']!;
-      // Collect arbitrary data that persists throughout navigation
-      final info = (data as Setting).info;
-      // Use BeamPage to define custom behavior
-      return BeamPage(
-        key: ValueKey('setting-$settingId'),
-        title: 'Settings: #$settingId',
-        popToNamed: '/',
-        type: BeamPageType.scaleTransition,
-        child: SettingDetailsScreen(settingId, info),
-      );
-    }
-  },
+final BeamerDelegate routerDelegate = BeamerDelegate(
+  initialPath: '/home',
+  locationBuilder: RoutesLocationBuilder(
+    routes: {
+      // Return either Widgets or BeamPages if more customization is needed
+      '/*': (context, state, data) {
+        final beamerKey = GlobalKey<BeamerState>();
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('FlutChill'),
+          ),
+          drawer: const NavigationDrawer(),
+          body: Beamer(
+            key: beamerKey,
+            routerDelegate: BeamerDelegate(
+              locationBuilder: BeamerLocationBuilder(
+                beamLocations: [
+                  ShowsLocation(),
+                  SettingsLocation(),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    },
+  ),
 );
